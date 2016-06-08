@@ -1,4 +1,4 @@
-# File Downloader
+# Queue Downloader
 
 This is a simple program that can download files one by one in a queue.
 
