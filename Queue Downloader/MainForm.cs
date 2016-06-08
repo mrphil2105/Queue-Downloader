@@ -75,7 +75,7 @@ namespace Crazy_Software.Downloaders.Queue_Downloader
             statusControl._Name = Path.GetFileName(_fileNames[_completedFiles]);
             ntfIcon.Text = "Queue Downloader" + Environment.NewLine + "Downloading";
 
-            if (Settings.NotificationLevel == NotificationLevel.ShowAllNotifications)
+            if (Settings.NotificationLevel == NotificationLevel.ShowAllNotifications && _completedFiles == 0)
                 ntfIcon.ShowBalloonTip(5000, "Started download", string.Format("The download has been started.", _completedFiles), ToolTipIcon.Info);
 
             AddLog(string.Format("Reading data from: {0}", _urlAddresses[_completedFiles]));
@@ -107,25 +107,22 @@ namespace Crazy_Software.Downloaders.Queue_Downloader
 
         private void OnDownloadResumed(object sender, EventArgs e)
         {
-            this.BeginInvoke(new Action(() =>
-            {
-                _watchElapsed.Start();
-                _timerStatus.Start();
-                btnPauseResume.Text = "&Pause";
-                conMenuClickPauseResume.Text = "Pause";
-                statusControl.Status = "Downloading...";
+            _watchElapsed.Start();
+            _timerStatus.Start();
+            btnPauseResume.Text = "&Pause";
+            conMenuClickPauseResume.Text = "Pause";
+            statusControl.Status = "Downloading...";
 
-                if (_pauseResumeSender is Button)
-                    statusStripHint.Text = "Paused the download";
+            if (_pauseResumeSender is Button)
+                statusStripHint.Text = "Pause the download";
 
-                ntfIcon.Text = "Queue Downloader" + Environment.NewLine + "Downloading";
+            ntfIcon.Text = "Queue Downloader" + Environment.NewLine + "Downloading";
 
-                if (Settings.NotificationLevel == NotificationLevel.ShowAllNotifications)
-                    ntfIcon.ShowBalloonTip(5000, "Resumed download", string.Format("The download has been resumed.", _completedFiles), ToolTipIcon.Info);
+            if (Settings.NotificationLevel == NotificationLevel.ShowAllNotifications)
+                ntfIcon.ShowBalloonTip(5000, "Resumed download", string.Format("The download has been resumed.", _completedFiles), ToolTipIcon.Info);
 
-                AddLog("The download has been resumed.");
-                TaskbarProgress.SetState(this.Handle, TaskbarProgress.TaskbarStates.Normal);
-            }));
+            AddLog("The download has been resumed.");
+            TaskbarProgress.SetState(this.Handle, TaskbarProgress.TaskbarStates.Normal);
         }
 
         private void OnDownloadCompleted(object sender, EventArgs e)
@@ -198,6 +195,13 @@ namespace Crazy_Software.Downloaders.Queue_Downloader
                         File.Delete(_fileNames[_completedFiles - 1]);
                 }
             }));
+        }
+
+        private void StartNextDownload()
+        {
+            statusControl.Status = "Starting next download...";
+            AddLog("Starting next download...");
+            _fileDownloader.DownloadFile(_urlAddresses[_completedFiles], _fileNames[_completedFiles]);
         }
 
         private void TimerTick(object sender, EventArgs e)
@@ -284,13 +288,6 @@ namespace Crazy_Software.Downloaders.Queue_Downloader
             using (var fileStream = new FileStream(_logFilePath, FileMode.Append, FileAccess.Write))
             using (var logWriter = new StreamWriter(fileStream))
                 logWriter.WriteLine(appendText);
-        }
-
-        private void StartNextDownload()
-        {
-            statusControl.Status = "Starting next download...";
-            AddLog("Starting next download...");
-            _fileDownloader.DownloadFile(_urlAddresses[_completedFiles], _fileNames[_completedFiles]);
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
