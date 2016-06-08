@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queue Downloader", "Queue Downloader\Queue Downloader.csproj", "{F93EFDE8-36AB-46EB-A16F-D369C47AC07D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F93EFDE8-36AB-46EB-A16F-D369C47AC07D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F93EFDE8-36AB-46EB-A16F-D369C47AC07D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F93EFDE8-36AB-46EB-A16F-D369C47AC07D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F93EFDE8-36AB-46EB-A16F-D369C47AC07D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
